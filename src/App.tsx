@@ -1,32 +1,35 @@
 import { useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
-import { Book, BookCards, getAllData, getSearchData } from "./api"
-import Shelf from "./components/Shelf"
+import { BookCards, getAllData } from "./api"
+import Home from "./components/Home"
 import BookDetail from "./components/BookDetail"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-// import Modal from "./components/Modal"
+import Search from "./components/Search"
+import NotFound from "./components/NotFound"
+import Loading from "./components/Loading"
 
 function App() {
   const [books, setBooks] = useState<BookCards[]>([])
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [search, setSearch] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-
-    getAllData().then((resp) => setBooks(resp))
-    // getSearchData("python")
+    setIsLoading(true)
+    getAllData().then((resp) => setBooks(resp)).then(() => setIsLoading(false))
   }, [])
+
+  if(isLoading) return <Loading />
 
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar search={search} setSearch={setSearch} />
       <div className="mx-auto">
         <Routes>
-          <Route path="/" element={<Shelf books={books} />} />
+          <Route path="/" element={<Home books={books} />} />
           <Route path="/book/:id" element={<BookDetail  />} />
+          <Route path="/search/:name" element={<Search />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} >
-        
-        </Modal> */}
       </div>
     </BrowserRouter>
   )

@@ -20,14 +20,19 @@ export interface BookCards{
     link: string,
 }
 
+export interface RespApi {
+    status: string,
+    books: BookCards[]
+}
+
 export const getAllData = async () => {
     const response = await axios.get("https://www.dbooks.org/api/recent")
     return (await response.data.books) as BookCards[]
 }
 
-export const getSearchData = async (item: string) => {
+export const getSearchData = async (item: string | undefined) => {
     const response = await axios.get(`https://www.dbooks.org/api/search/${item}`)
-    console.log(response.data)
+    return (await response.data) as RespApi
 }
 
 export const getDetailData = async (id: number) => {
