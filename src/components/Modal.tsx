@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import { Children } from 'react'
 
 // const Modal = ({isModalOpen, setIsModalOpen, children}) => {
 //   if(!isModalOpen) return null
