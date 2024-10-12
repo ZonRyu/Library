@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { Book, getDetailData } from "../api"
 import { decode } from "html-entities"
 import Loading from "./Loading"
@@ -18,9 +18,9 @@ const BookDetail = () => {
 
   return (
     <div className='container mx-auto my-12'>
-        <div className='flex py-4 px-4 rounded gap-8'>
+        <div className='flex flex-col md:flex-row lg:flex-row items-stretch py-4 px-4 rounded gap-8'>
             <img src={book?.image} className='shadow-2xl' alt={book?.title} />
-            <div>
+            <div className="flex flex-col relative">
                 <div className='mb-4'>
                     <h1 className='text-2xl font-bold'>{decode(book?.title)}</h1>
                     <h2 className='text-xl font-semibold'>{book?.subtitle}</h2>
@@ -46,6 +46,10 @@ const BookDetail = () => {
                         <h4 className='basis-3/4'>{book?.year}</h4>
                     </div>
                 </div>
+                <Link className="mt-6 lg:absolute lg:bottom-0  text-center w-full py-2 px-4 rounded bg-black text-white text-xl font-semibold" to={book?.url}>
+                    {/* <button className='text-center w-full py-2 px-4 rounded bg-black text-white text-xl font-semibold'>View Page</button> */}
+                    View Page
+                </Link>
             </div>
         </div>
     </div>
